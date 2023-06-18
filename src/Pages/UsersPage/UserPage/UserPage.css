@@ -1,0 +1,10 @@
+.user-info-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
