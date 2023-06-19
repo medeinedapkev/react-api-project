@@ -2,7 +2,11 @@ import { Routes, Route, Link } from 'react-router-dom';
 import Container from './Components/Container/Container.js';
 import Navigation from './Components/Navigation/Navigation.js';
 import UsersPage from './Pages/UsersPage/UsersPage/UsersPage.js';
-import UserPage from './Pages/UsersPage/UserPage/UserPage.js';
+import UserPage from './Pages/UserPage/UserPage.js';
+import PostsPage from './Pages/PostsPage/PostsPage.js';
+import PostPage from './Pages/PostPage/PostPage.js';
+import AlbumsPage from './Pages/AlbumsPage/AlbumsPage.js';
+import AlbumPage from './Pages/AlbumPage/AlbumPage.js';
 
 
 function App() {
@@ -12,6 +16,10 @@ function App() {
       <Routes>
         <Route path='/users' element={<UsersPage />} />
         <Route path='/users/:id' element={<UserPage />} />
+        <Route path='/posts' element={<PostsPage />} />
+        <Route path='/posts/:id' element={<PostPage />} />
+        <Route path='/albums' element={<AlbumsPage />} />
+        <Route path='/albums/:id' element={<AlbumPage />} />
         <Route path='/' element={
           <Container>
             <h1>Home page</h1>

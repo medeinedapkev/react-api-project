@@ -1,15 +1,14 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
+import { Avatar, Stack, Box, Paper, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { API_URL } from '../../../Config';
-import Container from '../../../Components/Container/Container';
+import { Link, useParams } from 'react-router-dom';
+import { firstLetterUpperCase } from '../../Functions/Functions';
+import { API_URL } from '../../Config';
+import Container from '../../Components/Container/Container';
 import './UserPage.css';
-import { ListItem } from '@mui/material';
+
 
 const UserPage = () => {
     const { id } = useParams();
@@ -18,7 +17,7 @@ const UserPage = () => {
     
     useEffect(() => {
         async function fetchData() {
-            const res = await axios.get(`${API_URL}/users/${id}`);
+            const res = await axios.get(`${API_URL}/users/${id}?_embed=albums&_embed=posts`);
             setUser(res.data);
         }
         
@@ -68,9 +67,9 @@ const UserPage = () => {
         }}
         >
 
-      <Paper elevation={3}>
+      <Paper elevation={3} sx={{ padding: 2, }}>
         <Stack>
-            <ListItem>
+
             <div className='user-info-wrapper'>
                 <div className='user-name'>
                     <h2>{user.name}</h2>
@@ -95,13 +94,56 @@ const UserPage = () => {
                     <p>Work place: {user.company.name}.</p>
                 </div>
                 <div className='user-info-item'>
-                    <p>Website: <a href={`${user.website}`} target='_blank' rel='noreferrer'>{user.website}</a></p>
+                    <p>Website: <a href={`https://${user.website}`} target='_blank' rel='noreferrer'>{user.website}</a></p>
                 </div>
             </div>
-            </ListItem>
         </Stack>
       </Paper>
     </Box>
+
+    <h2>Posts:</h2>
+    <Box
+        sx={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            '& > :not(style)': {
+              m: 1,
+              width: '46.5%',
+            },  
+        }}
+        >
+        {user.posts.map(post => (
+        <Paper key={post.id} elevation={3} sx={{ padding: 2, }} >
+            <Stack>
+                <div className='post-item'>
+                    <Link to={`/posts/${post.id}`}>
+                    <h4 className='post-title'>{firstLetterUpperCase(post.title)}</h4>
+                    </Link>
+                    <p className='post-body'>{firstLetterUpperCase(post.body)}</p>
+                </div>
+            </Stack>
+        </Paper>
+        )
+        )}
+    </Box>
+
+    <h2>Albums:</h2>
+    <List
+      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
+      aria-label="contacts"
+    >
+
+    {user.albums.map(album => (
+        <ListItem disablePadding key={album.id}>
+            <ListItemButton>
+            <Link to={`/albums/${album.id}`} >
+                <ListItemText primary={firstLetterUpperCase(album.title)} />
+            </Link>
+            </ListItemButton>
+        </ListItem>
+    ))}
+
+    </List>
     </Container>
   )
 }
