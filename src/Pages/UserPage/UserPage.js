@@ -9,11 +9,10 @@ import { API_URL } from '../../config.js';
 import Container from '../../Components/Container/Container';
 import './UserPage.css';
 
-
 const UserPage = () => {
-    const { id } = useParams();
-
     const [ user, setUser ] = useState(null);
+    const [ userDeleted, setUserDeleted ] = useState(false);
+    const { id } = useParams();
     
     useEffect(() => {
         async function fetchData() {
@@ -27,9 +26,6 @@ const UserPage = () => {
     if (!user) {
         return '';
     }
-    
-    console.log(user)
-
 
     function stringToColor(string) {
         let hash = 0;
@@ -56,52 +52,59 @@ const UserPage = () => {
         };
     }
 
-  return (
-    <Container>
-    <Box
-      sx={{
-          display: 'block',
-          '& > :not(style)': {
-              m: 1,
-            },
-        }}
-        >
+    const userDeleteHandler = () => {
+        axios.delete(`${API_URL}/users/${id}`)
+        .then(res => setUserDeleted(true));
+    }
 
-      <Paper elevation={3} sx={{ padding: 2, }}>
-        <Stack>
+    const userElement = (
+        <Box
+        sx={{
+            display: 'block',
+            '& > :not(style)': {
+                m: 1,
+              },
+          }}
+          >
+  
+        <Paper elevation={3} sx={{ padding: 2, }}>
+          <Stack>
+              <div className='user-info-wrapper'>
+                  <div className='user-name'>
+                      <h2>{user.name}</h2>
+                      <Avatar {...stringAvatar(`${user.name}`)} />
+                      <button onClick={userDeleteHandler}>Delete</button>
+                  </div>
+                  <div className='user-info-item'>
+                      <p>Username: {user.username}</p>
+                  </div>
+                  <div className='user-info-item'>
+                      <p>Phone: <a href={`tel:${user.phone}`}>{user.phone}</a></p>
+                  </div>
+                  <div className='user-info-item'>
+                      <p>Email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
+                  </div>
+                  <div className='user-info-item'>
+                      <p>Address: <a href={`https://www.google.com/maps/search/?api=1&query=${user.address.geo.lat},${user.address.geo.lng}`} target='_blank' rel='noreferrer'>
+                          {user.address.street} {user.address.suite}, {user.address.city} (zipcode: {user.address.zipcode}).
+                      </a>
+                      </p>
+                  </div>
+                  <div className='user-info-item'>
+                      <p>Work place: {user.company.name}.</p>
+                  </div>
+                  <div className='user-info-item'>
+                      <p>Website: <a href={`https://${user.website}`} target='_blank' rel='noreferrer'>{user.website}</a></p>
+                  </div>
+              </div>
+          </Stack>
+        </Paper>
+      </Box>
+    )
 
-            <div className='user-info-wrapper'>
-                <div className='user-name'>
-                    <h2>{user.name}</h2>
-                    <Avatar {...stringAvatar(`${user.name}`)} />
-                </div>
-                <div className='user-info-item'>
-                    <p>Username: {user.username}</p>
-                </div>
-                <div className='user-info-item'>
-                    <p>Phone: <a href={`tel:${user.phone}`}>{user.phone}</a></p>
-                </div>
-                <div className='user-info-item'>
-                    <p>Email: <a href={`mailto:${user.email}`}>{user.email}</a></p>
-                </div>
-                <div className='user-info-item'>
-                    <p>Address: <a href={`https://www.google.com/maps/search/?api=1&query=${user.address.geo.lat},${user.address.geo.lng}`} target='_blank' rel='noreferrer'>
-                        {user.address.street} {user.address.suite}, {user.address.city} (zipcode: {user.address.zipcode}).
-                    </a>
-                    </p>
-                </div>
-                <div className='user-info-item'>
-                    <p>Work place: {user.company.name}.</p>
-                </div>
-                <div className='user-info-item'>
-                    <p>Website: <a href={`https://${user.website}`} target='_blank' rel='noreferrer'>{user.website}</a></p>
-                </div>
-            </div>
-        </Stack>
-      </Paper>
-    </Box>
-
-    <h2>Posts:</h2>
+    const postsElement = user.posts.length > 0 && (
+    <>
+     <h2>Posts:</h2>
     <Box
         sx={{
             display: 'flex',
@@ -126,7 +129,11 @@ const UserPage = () => {
         )
         )}
     </Box>
+    </>
+    )
 
+    const albumsElement = user.albums.length > 0 && (
+    <>
     <h2>Albums:</h2>
     <List
       sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
@@ -144,6 +151,25 @@ const UserPage = () => {
     ))}
 
     </List>
+    </>
+    )
+
+    const allUserInfoElement = (
+        <>
+        {userElement}
+        {postsElement}
+        {albumsElement}
+        </>
+    )
+
+  return (
+    <Container>
+        {userDeleted ? (
+            <>
+            <h1>User was deleted</h1>
+            <Link to='/users'>Go back to users page</Link>
+            </> 
+        ) : allUserInfoElement }
     </Container>
   )
 }

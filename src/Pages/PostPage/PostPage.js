@@ -37,7 +37,6 @@ const PostPage = () => {
     .then(res => setPostDeleted(true));
   }
 
-
   const commentsElement = post.comments.length > 0 ? (
   <div className='comments-wrapper'>
     <h3>Comments:</h3>
@@ -56,7 +55,10 @@ const PostPage = () => {
     </Accordion>
     ))
   }
-  </div> ) : '';
+  </div> ) : (
+  <div className='comments-wrapper'>
+    <h3>No comments</h3>
+  </div> );
 
   const postElement = post && (
     <Box
