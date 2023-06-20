@@ -2,7 +2,7 @@ import { Box, Paper, Stack } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../Config';
+import { API_URL } from '../../config.js';
 import Container from '../../Components/Container/Container';
 import { firstLetterUpperCase } from '../../Functions/Functions';
 

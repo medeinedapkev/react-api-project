@@ -4,7 +4,7 @@ import { Button, CardActionArea, CardActions, Typography, CardMedia, CardContent
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { API_URL } from '../../Config';
+import { API_URL } from '../../config.js';
 import { firstLetterUpperCase } from '../../Functions/Functions';
 import Container from '../../Components/Container/Container';
 import './AlbumsPage.css';

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from "axios";
 import { Link } from 'react-router-dom';
 import './UsersPage.css';
-import { API_URL } from '../../../Config';
+import { API_URL } from '../../../config.js';
 import Container from '../../../Components/Container/Container';
 
 

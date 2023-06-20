@@ -3,7 +3,7 @@ import { Box, Paper, Stack, Accordion, AccordionSummary, AccordionDetails, Typog
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { API_URL } from '../../Config';
+import { API_URL } from '../../config.js';
 import { Container } from '@mui/material';
 import { firstLetterUpperCase } from '../../Functions/Functions';
 

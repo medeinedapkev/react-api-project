@@ -2,7 +2,7 @@ import axios from 'axios';
 import { v4 as uuid } from 'uuid';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { API_URL } from '../../Config';
+import { API_URL } from '../../config.js';
 import { firstLetterUpperCase } from '../../Functions/Functions';
 import Container from '../../Components/Container/Container';
 
