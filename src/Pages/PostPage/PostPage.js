@@ -6,6 +6,7 @@ import { useParams, Link } from 'react-router-dom';
 import { API_URL } from '../../config.js';
 import { Container } from '@mui/material';
 import { firstLetterUpperCase } from '../../Functions/Functions';
+import PostCommentForm from '../../Components/CommentForm/CommentForm.js';
 
 const PostPage = () => {
   const { id } = useParams();
@@ -15,15 +16,6 @@ const PostPage = () => {
   const [ commentForm, setCommentForm ] = useState(false);
   const [ commentCreated, setCommentCreated ] = useState(false);
 
-  const [ title, setTitle ] = useState('');
-  const [ body, setBody ] = useState('');
-  const [ email, setEmail ] = useState('');
-
-  const titleHandler = (event) => setTitle(event.target.value);
-  const bodyHandler = (event) => setBody(event.target.value);
-  const emailHandler = (event) => setEmail(event.target.value);
-  
-
   const deleteCommentHandler = (id) => {
     axios.delete(`${API_URL}/comments/${id}`)
     .then(res => setCommentDeleted(true))
@@ -32,7 +24,6 @@ const PostPage = () => {
   useEffect(() => {
     async function fetchData() {
       const res = await axios.get(`${API_URL}/posts/${id}/?_embed=comments&_expand=user`);
-
       setPost(res.data);
     }
 
@@ -50,20 +41,16 @@ const PostPage = () => {
     .then(res => setPostDeleted(true));
   }
 
-  const commentFormHandler = () => {
-    setCommentForm(true)
+  const commentFormHandler = (data) => {
+    if (data) {
+      setCommentForm(true);
+      console.log(data);
+    } else {
+      setCommentForm(true);
+    }
   }
 
-  const newCommentHandler = (event) => {
-    event.preventDefault();
-
-    const newComment = {
-      name: title,
-      body: body,
-      postId: Number(id),
-      email: email,
-    }
-
+  const createCommentHandler = (newComment) => {
     axios.post(`${API_URL}/comments`, newComment)
     .then(res => {
       setCommentCreated(true);
@@ -71,38 +58,13 @@ const PostPage = () => {
     })
   }
 
-  const commentFormElement = (
-    <form onSubmit={newCommentHandler}>
-      <div className='form-control'>
-        <label htmlFor='post-title'>Title: </label>
-        <input type='text' name='post-title' id='post-title' value={title} onChange={titleHandler} />
-      </div>
-
-      <div className='form-control'>
-        <label htmlFor='post-body'>Body: </label>
-        <textarea type='text' name='post-body' id='post-body' value={body} onChange={bodyHandler}></textarea>
-      </div>
-
-      <div className='form-control'>
-        <label htmlFor='email'>Email: </label>
-        <input type='email' name='email' id='email' value={email} onChange={emailHandler} />
-      </div>
-
-      <input type='submit' value='Create new comment' />
-    </form>
-  )
-
-  const commentsElement = post.comments.length > 0 ? (
-  <div className='comments-wrapper'>
-    <h3>Comments:</h3>
-    {commentForm ? commentFormElement : <button onClick={commentFormHandler}>Comment post</button> }
-
-    {post.comments.map(comment => (
+  const allCommentsElement = post.comments.length > 0 && post.comments.map(comment => (
     <Accordion key={comment.id}>
+
       <AccordionSummary aria-controls="panel1a-content" id="panel1a-header">
         <Typography>{firstLetterUpperCase(comment.name)}</Typography>
         <button onClick={() => deleteCommentHandler(comment.id)}>Delete</button>
-        <button onClick={commentFormHandler}>Edit</button>
+        <button onClick={() => commentFormHandler(comment)}>Edit</button>
       </AccordionSummary>
 
       <AccordionDetails>
@@ -112,11 +74,16 @@ const PostPage = () => {
 
     </Accordion>
     ))
-  }
-  </div> ) : (
+
+  const commentsWrapperElement = 
   <div className='comments-wrapper'>
-    <h3>No comments</h3>
-  </div> );
+    <h3>{post.comments.length > 0 ? 'Comments:' : 'No comments'}</h3>
+    {commentForm ? (
+    <PostCommentForm id={id} onCommentFormSubmit={createCommentHandler} />
+    ) : <button onClick={commentFormHandler}>Comment post</button> }
+    {allCommentsElement}
+  </div>
+
 
   const postElement = post && (
     <Box
@@ -144,7 +111,7 @@ const PostPage = () => {
             </div>
         </Stack>
 
-        {commentsElement}
+        {commentsWrapperElement}
     </Paper>
 </Box>
   )
