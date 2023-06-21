@@ -7,7 +7,8 @@ import PostsPage from './Pages/PostsPage/PostsPage.js';
 import PostPage from './Pages/PostPage/PostPage.js';
 import AlbumsPage from './Pages/AlbumsPage/AlbumsPage.js';
 import AlbumPage from './Pages/AlbumPage/AlbumPage.js';
-
+import CreatePost from './Pages/CreatePost/CreatePost.js';
+import EditPost from './Pages/EditPost/EditPost.js';
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
         <Route path='/posts/:id' element={<PostPage />} />
         <Route path='/albums' element={<AlbumsPage />} />
         <Route path='/albums/:id' element={<AlbumPage />} />
+        <Route path='/post/create' element={<CreatePost />} />
+        <Route path='/post/edit/:id' element={<EditPost />} />
+
         <Route path='/' element={
           <Container>
             <h1>Home page</h1>
