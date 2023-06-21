@@ -1,16 +1,16 @@
 {
   "posts": [
     {
-      "userId": 10,
+      "userId": 1,
       "id": 6,
-      "title": "edit",
-      "body": "post"
+      "title": "edited twice",
+      "body": "post 3"
     },
     {
-      "userId": 2,
+      "userId": "6",
       "id": 7,
-      "title": "edit2",
-      "body": "post2"
+      "title": "edited twice",
+      "body": "bravo"
     },
     {
       "userId": 2,
@@ -593,16 +593,57 @@
       "body": "sadfg",
       "userId": 2,
       "id": 114
+    },
+    {
+      "title": "pagaliaua",
+      "body": "agahah",
+      "userId": 1,
+      "id": 115
+    },
+    {
+      "title": "naujas post2",
+      "body": "rhueeu",
+      "userId": 4,
+      "id": 116
+    },
+    {
+      "title": "naujas post23",
+      "body": "gta",
+      "userId": 1,
+      "id": 117
+    },
+    {
+      "title": "naujas post2",
+      "body": "geaaaaaaaa",
+      "userId": 1,
+      "id": 118
+    },
+    {
+      "title": "ewf",
+      "body": "efw",
+      "userId": 1,
+      "id": 119
+    },
+    {
+      "title": "ergf",
+      "body": "ewgf",
+      "userId": 1,
+      "id": 120
+    },
+    {
+      "title": "naujas post5",
+      "body": "guhjk",
+      "userId": 1,
+      "id": 121
+    },
+    {
+      "title": "blwedble",
+      "body": "hey",
+      "userId": 7,
+      "id": 122
     }
   ],
   "comments": [
-    {
-      "postId": 6,
-      "id": 27,
-      "name": "doloribus quibusdam molestiae amet illum",
-      "email": "Francesco.Gleason@nella.us",
-      "body": "nisi vel quas ut laborum ratione\nrerum magni eum\nunde et voluptatem saepe\nvoluptas corporis modi amet ipsam eos saepe porro"
-    },
     {
       "postId": 6,
       "id": 29,
@@ -3488,10 +3529,10 @@
       "id": 502
     },
     {
-      "name": "naujas post2",
-      "body": "werty",
-      "postId": 9,
-      "email": "medeine.dapkev@gmail.com",
+      "name": "rgregdfv",
+      "body": "ewgfv",
+      "postId": 120,
+      "email": "ger@fwe.com",
       "id": 503
     }
   ],

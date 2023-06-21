@@ -2,7 +2,7 @@ import { Box, Paper, Stack, Accordion, AccordionSummary, AccordionDetails, Typog
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../config.js';
 import { Container } from '@mui/material';
 import { firstLetterUpperCase } from '../../Functions/Functions';
@@ -10,15 +10,20 @@ import PostCommentForm from '../../Components/CommentForm/CommentForm.js';
 
 const PostPage = () => {
   const { id } = useParams();
+  const navigator = useNavigate();
+
   const [ post, setPost ] = useState(null);
-  const [ postDeleted, setPostDeleted ] = useState(false);
   const [ commentDeleted, setCommentDeleted ] = useState(false);
   const [ commentForm, setCommentForm ] = useState(false);
   const [ commentCreated, setCommentCreated ] = useState(false);
+  const [ errorMessage, setErrorMessage ] = useState('');
 
   const deleteCommentHandler = (id) => {
     axios.delete(`${API_URL}/comments/${id}`)
-    .then(res => setCommentDeleted(true))
+    .then(res => {
+      setCommentDeleted(true);
+      setErrorMessage('');
+    }).catch(err => setErrorMessage(err.message))
   }
   
   useEffect(() => {
@@ -38,7 +43,8 @@ const PostPage = () => {
     event.preventDefault();
 
     axios.delete(`${API_URL}/posts/${id}`)
-    .then(res => setPostDeleted(true));
+    .then(res => navigator('/posts'))
+    .catch(err => setErrorMessage(err.message));
   }
 
   const commentFormHandler = (data) => {
@@ -55,7 +61,8 @@ const PostPage = () => {
     .then(res => {
       setCommentCreated(true);
       setCommentForm(false);
-    })
+      setErrorMessage('');
+    }).catch(err => setErrorMessage(err.message));
   }
 
   const allCommentsElement = post.comments.length > 0 && post.comments.map(comment => (
@@ -75,26 +82,19 @@ const PostPage = () => {
     </Accordion>
     ))
 
-  const commentsWrapperElement = 
+  const commentsWrapperElement = (
   <div className='comments-wrapper'>
     <h3>{post.comments.length > 0 ? 'Comments:' : 'No comments'}</h3>
     {commentForm ? (
     <PostCommentForm id={id} onCommentFormSubmit={createCommentHandler} />
-    ) : <button onClick={commentFormHandler}>Comment post</button> }
+    ) : (
+    <button onClick={commentFormHandler}>Comment post</button>
+    )}
     {allCommentsElement}
-  </div>
-
+  </div>)
 
   const postElement = post && (
-    <Box
-    sx={{
-        display: 'flex',
-        '& > :not(style)': {
-          m: 1,
-          width: '100%',
-        },  
-    }}
-    >
+    <Box sx={{ display: 'flex', '& > :not(style)': { m: 1, width: '100%' } }}>
     
     <Paper elevation={3} sx={{ padding: 2, }} >
         <Stack>
@@ -107,7 +107,6 @@ const PostPage = () => {
                 <p>{post.user.name}</p>
                 </Link>
                 <p>{firstLetterUpperCase(post.body)}</p>
-
             </div>
         </Stack>
 
@@ -116,16 +115,10 @@ const PostPage = () => {
 </Box>
   )
 
-  const deletedPostElement = postDeleted && (
-    <>
-    <h1>Post was deleted</h1>
-    <Link to='/posts'>Go back to posts page</Link>
-    </>
-  )
-
   return (
     <Container>
-    {postDeleted ? deletedPostElement : postElement }
+    {errorMessage && <h1 style={{ color: 'red' }}>{errorMessage}</h1>}
+    {postElement}
     </Container>
   )
 }
