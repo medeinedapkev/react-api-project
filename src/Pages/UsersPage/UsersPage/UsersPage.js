@@ -30,6 +30,7 @@ const UsersPage = () => {
 
   return (
     <Container>
+      <Link to='/users/create'>Create new user</Link>
     <h1>Users:</h1>
     <List
       sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}

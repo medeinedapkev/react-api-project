@@ -9,6 +9,8 @@ import AlbumsPage from './Pages/AlbumsPage/AlbumsPage.js';
 import AlbumPage from './Pages/AlbumPage/AlbumPage.js';
 import CreatePost from './Pages/CreatePost/CreatePost.js';
 import EditPost from './Pages/EditPost/EditPost.js';
+import CreateUser from './Pages/CreateUser/CreateUser.js';
+import EditUser from './Pages/EditUser/EditUser.js';
 
 function App() {
   return (
@@ -17,12 +19,14 @@ function App() {
       <Routes>
         <Route path='/users' element={<UsersPage />} />
         <Route path='/users/:id' element={<UserPage />} />
+        <Route path='/users/create' element={<CreateUser />} />
+        <Route path='/users/edit/:id' element={<EditUser />} />
         <Route path='/posts' element={<PostsPage />} />
         <Route path='/posts/:id' element={<PostPage />} />
-        <Route path='/albums' element={<AlbumsPage />} />
-        <Route path='/albums/:id' element={<AlbumPage />} />
         <Route path='/post/create' element={<CreatePost />} />
         <Route path='/post/edit/:id' element={<EditPost />} />
+        <Route path='/albums' element={<AlbumsPage />} />
+        <Route path='/albums/:id' element={<AlbumPage />} />
 
         <Route path='/' element={
           <Container>

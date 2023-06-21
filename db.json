@@ -3743,6 +3743,29 @@
         "catchPhrase": "Centralized empowering task-force",
         "bs": "target end-to-end models"
       }
+    },
+    {
+      "name": "Medeinė Dapkevičiūtė",
+      "username": "aesrd",
+      "phone": "869464245",
+      "email": "medeine.dapkev@gmail.com",
+      "address": {
+        "city": "KAUNAS",
+        "street": "Sartų g.",
+        "suite": "22",
+        "zipcode": "49378",
+        "geo": {
+          "lat": "-37.3159",
+          "lng": "81.1496"
+        }
+      },
+      "company": {
+        "name": "asdf",
+        "bs": "harness real-time e-markets",
+        "catchPhrase": "Multi-layered client-server neural-net"
+      },
+      "website": "ased",
+      "id": 11
     }
   ],
   "albums": [

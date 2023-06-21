@@ -3,28 +3,29 @@ import { Avatar, Stack, Box, Paper, List, ListItem, ListItemButton, ListItemText
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { firstLetterUpperCase } from '../../Functions/Functions';
 import { API_URL } from '../../config.js';
 import Container from '../../Components/Container/Container';
 import './UserPage.css';
 
 const UserPage = () => {
-    const [ user, setUser ] = useState(null);
-    const [ userDeleted, setUserDeleted ] = useState(false);
     const { id } = useParams();
+    const navigator = useNavigate();
+
+    const [ user, setUser ] = useState(null);
+    const [ errorMessage, setErrorMessage ] = useState('');
     
     useEffect(() => {
-        async function fetchData() {
-            const res = await axios.get(`${API_URL}/users/${id}?_embed=albums&_embed=posts`);
+        axios.get(`${API_URL}/users/${id}?_embed=albums&_embed=posts`)
+        .then(res => {
             setUser(res.data);
-        }
-        
-        fetchData();
+            setErrorMessage('');
+        }).catch(err => setErrorMessage(err.message));
     }, [id])
     
     if (!user) {
-        return '';
+        return;
     }
 
     function stringToColor(string) {
@@ -54,7 +55,8 @@ const UserPage = () => {
 
     const userDeleteHandler = () => {
         axios.delete(`${API_URL}/users/${id}`)
-        .then(res => setUserDeleted(true));
+        .then(res => navigator('/users'))
+        .catch(err => setErrorMessage(err.message));
     }
 
     const userElement = (
@@ -74,6 +76,7 @@ const UserPage = () => {
                       <h2>{user.name}</h2>
                       <Avatar {...stringAvatar(`${user.name}`)} />
                       <button onClick={userDeleteHandler}>Delete</button>
+                      <Link to={`/users/edit/${id}`}>Edit</Link>
                   </div>
                   <div className='user-info-item'>
                       <p>Username: {user.username}</p>
@@ -164,12 +167,8 @@ const UserPage = () => {
 
   return (
     <Container>
-        {userDeleted ? (
-            <>
-            <h1>User was deleted</h1>
-            <Link to='/users'>Go back to users page</Link>
-            </> 
-        ) : allUserInfoElement }
+        {errorMessage && <h1 style={{ color: 'red' }}>{errorMessage}</h1>}
+        {allUserInfoElement}
     </Container>
   )
 }
