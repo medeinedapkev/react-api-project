@@ -8,8 +8,6 @@ import './UsersPage.css';
 import { API_URL } from '../../../config.js';
 import Container from '../../../Components/Container/Container';
 
-
-
 const UsersPage = () => {
     const [ users, setUsers ] = useState([]);
 

@@ -7,17 +7,17 @@ import { API_URL } from '../../config.js';
 import { Container } from '@mui/material';
 import { firstLetterUpperCase } from '../../Functions/Functions';
 import PostCommentForm from '../../Components/CommentForm/CommentForm.js';
+import { toast } from 'react-toastify';
 
 const PostPage = () => {
   const { id } = useParams();
   const navigator = useNavigate();
 
   const [ post, setPost ] = useState(null);
-  const [ commentDeleted, setCommentDeleted ] = useState(false);
   const [ commentForm, setCommentForm ] = useState(false);
-  const [ commentCreated, setCommentCreated ] = useState(false);
-  const [ errorMessage, setErrorMessage ] = useState('');
   const [ editComment, setEditComment ] = useState(null);
+  const [ commentDeleted, setCommentDeleted ] = useState(false);
+  const [ commentCreated, setCommentCreated ] = useState(false);
   const [ commentEdited, setCommentEdited ] = useState(false)
 
   
@@ -41,22 +41,24 @@ const PostPage = () => {
     event.preventDefault();
     
     axios.delete(`${API_URL}/posts/${id}`)
-    .then(res => navigator('/posts'))
-    .catch(err => setErrorMessage(err.message));
+    .then(res => {
+      navigator('/posts');
+      toast.success('Post was successfully deleted');
+    }).catch(err => toast.error(err.message));
   }
 
   const deleteCommentHandler = (id) => {
     axios.delete(`${API_URL}/comments/${id}`)
     .then(res => {
       setCommentDeleted(true);
-      setErrorMessage('');
-    }).catch(err => setErrorMessage(err.message))
+      toast.success('Comment was successfully deleted');
+    }).catch(err => toast.error(err.message));
   }
 
   const commentFormHandler = (data) => {
     if (data) {
       setCommentForm(true);
-      setEditComment(data)
+      setEditComment(data);
     } else {
       setCommentForm(true);
     }
@@ -69,16 +71,16 @@ const PostPage = () => {
         setEditComment(null);
         setCommentEdited(true);
         setCommentForm(false);
-        setErrorMessage('');
-      }).catch(err => setErrorMessage(err.message))
+        toast.success('Comment was successfully edited');
+      }).catch(err => toast.error(err.message));
 
     } else {
       axios.post(`${API_URL}/comments`, comment)
       .then(res => {
         setCommentCreated(true);
         setCommentForm(false);
-        setErrorMessage('');
-      }).catch(err => setErrorMessage(err.message));
+        toast.success('Comment was successfully created');
+      }).catch(err => toast.error(err.message));
     }
   }
 
@@ -134,7 +136,6 @@ const PostPage = () => {
 
   return (
     <Container>
-    {errorMessage && <h1 style={{ color: 'red' }}>{errorMessage}</h1>}
     {postElement}
     </Container>
   )

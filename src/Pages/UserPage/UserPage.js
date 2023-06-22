@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Avatar, Stack, Box, Paper, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+import { toast } from 'react-toastify';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
@@ -55,8 +56,10 @@ const UserPage = () => {
 
     const userDeleteHandler = () => {
         axios.delete(`${API_URL}/users/${id}`)
-        .then(res => navigator('/users'))
-        .catch(err => setErrorMessage(err.message));
+        .then(res => {
+            navigator('/users');
+            toast.warning('User was successfully deleted')
+        }).catch(err => setErrorMessage(err.message));
     }
 
     const userElement = (
@@ -157,18 +160,13 @@ const UserPage = () => {
     </>
     )
 
-    const allUserInfoElement = (
-        <>
-        {userElement}
-        {postsElement}
-        {albumsElement}
-        </>
-    )
 
   return (
     <Container>
         {errorMessage && <h1 style={{ color: 'red' }}>{errorMessage}</h1>}
-        {allUserInfoElement}
+        {userElement}
+        {postsElement}
+        {albumsElement}
     </Container>
   )
 }

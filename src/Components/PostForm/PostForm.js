@@ -18,7 +18,7 @@ const PostForm = ({ onPostFormSubmit, initialData }) => {
             setUserId(res.data[0].id);
           }
       }).catch(err => toast.error(err.message));
-    }, [])
+    }, [initialData])
 
     const titleHandler = (event) => setTitle(event.target.value);
     const bodyHandler = (event) => setBody(event.target.value);

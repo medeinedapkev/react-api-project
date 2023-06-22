@@ -5,7 +5,6 @@ import { API_URL } from '../../config';
 import Container from '../../Components/Container/Container'
 import UserForm from '../../Components/UserForm/UserForm'
 
-
 const EditUser = () => {
   const navigator = useNavigate();
   const { id } = useParams();
@@ -19,7 +18,7 @@ const EditUser = () => {
       setUser(res.data);
       setErrorMessage('');
     }).catch(err => setErrorMessage(err.message));
-  }, [])
+  }, [id])
 
   const editUserHandler = (editUser) => {
     axios.patch(`${API_URL}/users/${id}`, editUser)

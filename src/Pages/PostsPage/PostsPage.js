@@ -13,7 +13,6 @@ const PostsPage = () => {
   useEffect(() => {
     async function fetchData() {
       const res = await axios.get(`${API_URL}/posts?_embed=comments&_expand=user`);
-      console.log(res.data)
       setPosts(res.data);
     }
 

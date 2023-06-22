@@ -26,8 +26,8 @@ const CommentForm = ({ postId, onCommentFormSubmit, initialData }) => {
           comment = {...initialData, 
             name: title, 
             body,
-            // postId: Number(postId),
-            email}
+            email,
+          }
         } else {
           comment = {
               name: title,
