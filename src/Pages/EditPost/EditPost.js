@@ -9,7 +9,6 @@ const EditPost = () => {
     const { id } = useParams();
     const navigator = useNavigate();
 
-    const [ users, setUsers ] = useState('');
     const [ post, setPost ] = useState('');
     const [ errorMessage, setErrorMessage ] = useState('');
 
@@ -20,14 +19,6 @@ const EditPost = () => {
           setErrorMessage('');
         }).catch(err => setErrorMessage(err.message));
     }, [id])
-  
-    useEffect(() => {
-        axios.get(`${API_URL}/users`)
-        .then(res => {
-            setUsers(res.data);
-            setErrorMessage('');
-        }).catch(err => setErrorMessage(err.message))
-    }, [])
 
     const editPostHandler = (editPost) => {
         axios.patch(`${API_URL}/posts/${id}`, editPost)
@@ -35,14 +26,14 @@ const EditPost = () => {
         .catch(err => setErrorMessage(err.message));
       }
   
-      if (!users || !post) {
+      if (!post) {
           return;
       }
 
   return (
     <Container>
       {errorMessage && <h1 style={{ color: 'red' }}>{errorMessage}</h1>}
-      <PostForm onPostFormSubmit={editPostHandler} usersData={users} initialData={post} />     
+      <PostForm onPostFormSubmit={editPostHandler} initialData={post} />     
     </Container>
   )
 }

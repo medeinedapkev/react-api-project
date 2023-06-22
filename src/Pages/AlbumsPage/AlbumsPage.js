@@ -15,8 +15,8 @@ const AlbumsPage = () => {
   useEffect(() => {
     async function fetchData() {
       const res = await axios.get(`${API_URL}/albums?_embed=photos&_expand=user`)
-      console.log(res.data)
       setAlbums(res.data);
+      console.log(res.data[0])
     }
 
     fetchData();
@@ -66,6 +66,7 @@ const AlbumsPage = () => {
 
   return (
     <Container>
+      <Link to='/albums/create'>Create new album</Link>
       {albums && (
         <div className='albums-wrapper'>
           {albumCard}

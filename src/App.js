@@ -11,6 +11,7 @@ import CreatePost from './Pages/CreatePost/CreatePost.js';
 import EditPost from './Pages/EditPost/EditPost.js';
 import CreateUser from './Pages/CreateUser/CreateUser.js';
 import EditUser from './Pages/EditUser/EditUser.js';
+import CreateAlbum from './Pages/CreateAlbum/CreateAlbum.js';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path='/post/edit/:id' element={<EditPost />} />
         <Route path='/albums' element={<AlbumsPage />} />
         <Route path='/albums/:id' element={<AlbumPage />} />
+        <Route path='/albums/create' element={<CreateAlbum />} />
 
         <Route path='/' element={
           <Container>

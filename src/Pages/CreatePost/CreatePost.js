@@ -7,16 +7,16 @@ import { useEffect, useState } from 'react';
 
 const CreatePost = () => {
   const navigator = useNavigate();
-  const [ users, setUsers ] = useState('');
+  // const [ users, setUsers ] = useState('');
   const [ errorMessage, setErrorMessage ] = useState('');
 
-  useEffect(() => {
-    axios.get(`${API_URL}/users`)
-    .then(res => {
-        setUsers(res.data);
-        setErrorMessage('');
-    }).catch(err => setErrorMessage(err.massage))
-}, [])
+//   useEffect(() => {
+//     axios.get(`${API_URL}/users`)
+//     .then(res => {
+//         setUsers(res.data);
+//         setErrorMessage('');
+//     }).catch(err => setErrorMessage(err.massage))
+// }, [])
 
     const newPostHandler = (newPost) => {
       axios.post(`${API_URL}/posts`, newPost)
@@ -24,14 +24,14 @@ const CreatePost = () => {
       .catch(err => setErrorMessage(err.message));
     }
 
-    if (!users) {
-      return;
-    }
+    // if (!users) {
+    //   return;
+    // }
 
   return (
   <Container>
     {errorMessage && <h1 style={{ color: 'red' }}>{errorMessage}</h1>}
-    <PostForm onPostFormSubmit={newPostHandler} usersData={users} />
+    <PostForm onPostFormSubmit={newPostHandler} />
   </Container>
   )
 }
