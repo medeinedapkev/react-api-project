@@ -645,13 +645,6 @@
   ],
   "comments": [
     {
-      "postId": 6,
-      "id": 29,
-      "name": "eum distinctio amet dolor",
-      "email": "Jennings_Pouros@erica.biz",
-      "body": "tempora voluptatem est\nmagnam distinctio autem est dolorem\net ipsa molestiae odit rerum itaque corporis nihil nam\neaque rerum error"
-    },
-    {
       "postId": 7,
       "id": 32,
       "name": "dolorem architecto ut pariatur quae qui suscipit",
@@ -3534,6 +3527,13 @@
       "postId": 120,
       "email": "ger@fwe.com",
       "id": 503
+    },
+    {
+      "name": "24\\5wt4",
+      "body": "@$wt",
+      "postId": 6,
+      "email": "medeine.dapkev@gmail.com",
+      "id": 507
     }
   ],
   "users": [
@@ -3745,7 +3745,7 @@
       }
     },
     {
-      "name": "Medeinė Dapkevičiūtė",
+      "name": "Medeinė pavardenis",
       "username": "aesrd",
       "phone": "869464245",
       "email": "medeine.dapkev@gmail.com",
@@ -3753,7 +3753,7 @@
         "city": "KAUNAS",
         "street": "Sartų g.",
         "suite": "22",
-        "zipcode": "49378",
+        "zipcode": "49378-12324",
         "geo": {
           "lat": "-37.3159",
           "lng": "81.1496"

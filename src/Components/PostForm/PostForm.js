@@ -34,7 +34,6 @@ const PostForm = ({ onPostFormSubmit, initialData, usersData }) => {
 
       if (initialData) {
         newPost = {...initialData, title, body, userId: Number(userId)};
-        console.log(newPost)
       } else {
           newPost = {
             title: title,

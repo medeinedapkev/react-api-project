@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const CommentForm = ({ id, onCommentFormSubmit }) => {
+const CommentForm = ({ postId, onCommentFormSubmit, initialData }) => {
 
     const [ title, setTitle ] = useState('');
     const [ body, setBody ] = useState('');
@@ -9,18 +9,35 @@ const CommentForm = ({ id, onCommentFormSubmit }) => {
     const titleHandler = (event) => setTitle(event.target.value);
     const bodyHandler = (event) => setBody(event.target.value);
     const emailHandler = (event) => setEmail(event.target.value);
+
+    useEffect(() => {
+      if (initialData) {
+        setTitle(initialData.name);
+        setBody(initialData.body);
+        setEmail(initialData.email);
+      }
+    }, [initialData])
     
     const commentFormHandler = (event) => {
         event.preventDefault();
+        let comment = {};
 
-        const newComment = {
-            name: title,
-            body: body,
-            postId: Number(id),
-            email: email,
+        if (initialData) {
+          comment = {...initialData, 
+            name: title, 
+            body,
+            // postId: Number(postId),
+            email}
+        } else {
+          comment = {
+              name: title,
+              body: body,
+              postId: Number(postId),
+              email: email,
+          }
         }
 
-        onCommentFormSubmit(newComment);
+        onCommentFormSubmit(comment);
     }
 
   return (
@@ -40,7 +57,7 @@ const CommentForm = ({ id, onCommentFormSubmit }) => {
       <input type='email' name='email' id='email' value={email} onChange={emailHandler} />
     </div>
 
-    <input type='submit' value='Create new comment' />
+    <button type='submit'>{initialData ? 'Save changes' : 'Create new comment'}</button>
   </form>
   )
 }

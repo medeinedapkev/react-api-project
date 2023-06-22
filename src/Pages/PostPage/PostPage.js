@@ -17,6 +17,33 @@ const PostPage = () => {
   const [ commentForm, setCommentForm ] = useState(false);
   const [ commentCreated, setCommentCreated ] = useState(false);
   const [ errorMessage, setErrorMessage ] = useState('');
+  const [ editComment, setEditComment ] = useState(null);
+  const [ commentEdited, setCommentEdited ] = useState(false)
+
+  
+  useEffect(() => {
+    async function fetchData() {
+      const res = await axios.get(`${API_URL}/posts/${id}/?_embed=comments&_expand=user`);
+      setPost(res.data);
+      setCommentEdited(false);
+      setCommentCreated(false);
+      setCommentDeleted(false);
+    }
+    
+    fetchData();
+  }, [id, commentDeleted, commentCreated, commentEdited])
+  
+  if (!post) {
+    return;                    
+  }
+  
+  const deletePostHandler = (event) => {
+    event.preventDefault();
+    
+    axios.delete(`${API_URL}/posts/${id}`)
+    .then(res => navigator('/posts'))
+    .catch(err => setErrorMessage(err.message));
+  }
 
   const deleteCommentHandler = (id) => {
     axios.delete(`${API_URL}/comments/${id}`)
@@ -25,44 +52,34 @@ const PostPage = () => {
       setErrorMessage('');
     }).catch(err => setErrorMessage(err.message))
   }
-  
-  useEffect(() => {
-    async function fetchData() {
-      const res = await axios.get(`${API_URL}/posts/${id}/?_embed=comments&_expand=user`);
-      setPost(res.data);
-    }
-
-    fetchData();
-  }, [id, commentDeleted, commentCreated])
-
-  if (!post) {
-    return;                    
-  }
-
-  const deletePostHandler = (event) => {
-    event.preventDefault();
-
-    axios.delete(`${API_URL}/posts/${id}`)
-    .then(res => navigator('/posts'))
-    .catch(err => setErrorMessage(err.message));
-  }
 
   const commentFormHandler = (data) => {
     if (data) {
       setCommentForm(true);
-      console.log(data);
+      setEditComment(data)
     } else {
       setCommentForm(true);
     }
   }
 
-  const createCommentHandler = (newComment) => {
-    axios.post(`${API_URL}/comments`, newComment)
-    .then(res => {
-      setCommentCreated(true);
-      setCommentForm(false);
-      setErrorMessage('');
-    }).catch(err => setErrorMessage(err.message));
+  function commentHandler(comment) {
+    if (editComment) {
+      axios.patch(`${API_URL}/comments/${comment.id}`, comment)
+      .then(res => {
+        setEditComment(null);
+        setCommentEdited(true);
+        setCommentForm(false);
+        setErrorMessage('');
+      }).catch(err => setErrorMessage(err.message))
+
+    } else {
+      axios.post(`${API_URL}/comments`, comment)
+      .then(res => {
+        setCommentCreated(true);
+        setCommentForm(false);
+        setErrorMessage('');
+      }).catch(err => setErrorMessage(err.message));
+    }
   }
 
   const allCommentsElement = post.comments.length > 0 && post.comments.map(comment => (
@@ -86,9 +103,9 @@ const PostPage = () => {
   <div className='comments-wrapper'>
     <h3>{post.comments.length > 0 ? 'Comments:' : 'No comments'}</h3>
     {commentForm ? (
-    <PostCommentForm id={id} onCommentFormSubmit={createCommentHandler} />
+    <PostCommentForm postId={id} onCommentFormSubmit={commentHandler} initialData={editComment} />
     ) : (
-    <button onClick={commentFormHandler}>Comment post</button>
+    <button onClick={() => commentFormHandler()}>Comment post</button>
     )}
     {allCommentsElement}
   </div>)

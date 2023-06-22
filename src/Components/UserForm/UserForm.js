@@ -107,7 +107,7 @@ const UserForm = ({ onUsertFormSubmit, initialData }) => {
                 <input type='text' name='suite' id='suite' placeholder="Suite" value={suite} onChange={suiteHandler} />
 
                 <label htmlFor='zipcode'>Zipcode: </label>
-                <input type='number' name='zipcode' id='zipcode' placeholder="Zipcode" value={zipcode} onChange={zipcodeHandler} />
+                <input type='tex' name='zipcode' id='zipcode' placeholder="Zipcode" value={zipcode} onChange={zipcodeHandler} />
             </fieldset>
 
             <div className='form-control'>
