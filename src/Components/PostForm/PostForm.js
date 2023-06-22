@@ -1,24 +1,23 @@
+import { toast } from 'react-toastify';
 import { useEffect, useState } from 'react';
-import Container from '../Container/Container'
 import axios from 'axios';
+import Container from '../Container/Container'
 import { API_URL } from '../../config';
 
-const PostForm = ({ onPostFormSubmit, initialData, usersData }) => {
+const PostForm = ({ onPostFormSubmit, initialData }) => {
     const [ users, setUsers ] = useState('');
     const [ title, setTitle ] = useState('');
     const [ body, setBody ] = useState('');
     const [ userId, setUserId ] = useState('');
-    const [ errorMessage, setErrorMessage ] = useState('');
 
     useEffect(() => {
       axios.get(`${API_URL}/users`)
       .then(res => {
           setUsers(res.data);
-          setErrorMessage('');
           if (!initialData) {
-            setUserId(res.data[0].id)
+            setUserId(res.data[0].id);
           }
-      }).catch(err => setErrorMessage(err.massage))
+      }).catch(err => toast.error(err.message));
     }, [])
 
     const titleHandler = (event) => setTitle(event.target.value);
@@ -27,7 +26,6 @@ const PostForm = ({ onPostFormSubmit, initialData, usersData }) => {
 
     useEffect(() => {
         if (initialData) {
-          console.log(initialData)
             setTitle(initialData.title);
             setBody(initialData.body);
             setUserId(initialData.userId);
@@ -57,7 +55,6 @@ const PostForm = ({ onPostFormSubmit, initialData, usersData }) => {
 
   return (
     <Container>
-        {errorMessage && <h1 style={{ color: 'red' }}>{errorMessage}</h1>}
     <form onSubmit={postHandler}>
       <div className='form-control'>
         <label htmlFor='post-title'>Title: </label>
@@ -82,4 +79,4 @@ const PostForm = ({ onPostFormSubmit, initialData, usersData }) => {
   )
 }
 
-export default PostForm
+export default PostForm;
