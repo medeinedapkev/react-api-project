@@ -15,6 +15,7 @@ import EditPost from './Pages/EditPost/EditPost.js';
 import CreateUser from './Pages/CreateUser/CreateUser.js';
 import EditUser from './Pages/EditUser/EditUser.js';
 import CreateAlbum from './Pages/CreateAlbum/CreateAlbum.js';
+import EditAlbum from './Pages/EditAlbum/EditAlbum.js';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path='/albums' element={<AlbumsPage />} />
         <Route path='/albums/:id' element={<AlbumPage />} />
         <Route path='/albums/create' element={<CreateAlbum />} />
+        <Route path='/albums/edit/:id' element={<EditAlbum />} />
 
         <Route path='/' element={
           <Container>
